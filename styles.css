@@ -1,0 +1,15 @@
+.colornote-import input[type="file"] {
+	max-width: 240px;
+}
+
+.colornote-status {
+	padding: 12px;
+	border-radius: 8px;
+	background: var(--background-secondary);
+}
+
+.colornote-diff pre {
+	white-space: pre-wrap;
+	padding: 12px;
+	background: var(--background-secondary);
+}
