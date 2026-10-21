@@ -67,9 +67,11 @@ The input limit is 32 MiB. Decoded records stay in memory while the preview is o
 
 ## Settings
 
-The settings tab contains the GitHub Sponsors controls and a saved profile count. Folder paths and backup passwords are entered in the import modal. A folder must be relative to the vault root. Empty, hidden and parent path segments are rejected. Use ordinary folder names without filename control characters.
+After a minor or major update, this plugin opens one What's new tab in the background. The tab and settings card suggest other NoteMods plugins and Zovo Chat and link to notemods.com for feedback ([privacy](https://notemods.com/privacy/)). The tab sends no data. Turn the tab off in Settings.
 
-To save a profile, turn on Pro, enter its folder and color mapping, enter a profile name, and select Save profile. Close and open the modal to select the saved profile. Signing out turns off profile use and comparison. It leaves the stored profiles in the vault settings for a later sign in.
+The settings tab contains the GitHub Sponsors controls and a saved profile count. The parent folder that you enter in the import modal must be relative to the vault root. Empty, hidden and parent path segments are rejected. Use ordinary folder names without filename control characters.
+
+Signing out turns off profile use and comparison. It leaves the stored profiles in the vault settings for a later sign in.
 
 ## FAQ
 
@@ -79,7 +81,7 @@ The named 2024-10-14, 2026-06-15 and 2026-07-25 version 7.1 samples decoded to 9
 
 What is excluded?
 
-Individually locked notes, reminders, calendar-specific titles and internal link repair are outside this version. Archive and trash records are reported but do not become normal notes. Missing UUIDs, unknown record types and invalid required metadata are reported as unsupported.
+Individually locked notes, reminders, calendar-specific titles and internal link repair are outside this version. Missing UUIDs, unknown record types and invalid required metadata are reported as unsupported.
 
 What was not tested?
 

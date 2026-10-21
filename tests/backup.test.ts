@@ -43,8 +43,9 @@ describe('profile validation', () => {
 });
 
 // Named source files remain outside the export. Synthetic fixtures run in both layouts.
-const sampleDir = process.env.COLORNOTE_SAMPLES ?? '/Users/mike/obsidian-wave-2026-10-12/intel/o19-evidence/samples';
+// Set COLORNOTE_SAMPLES to the folder of the named backups to run these checks.
+const sampleDir = process.env.COLORNOTE_SAMPLES ?? '';
 for (const [name, password, records, headerCount] of [['20241014', '1234', 9, 7], ['20260615', '0000', 20, 15], ['20260725', '0000', 49, 37]] as const) {
 	const path = `${sampleDir}/colornote-${name}.backup`;
-	it.skipIf(!existsSync(path))(`known backup ${name}`, () => { const result = decodeBackup(new Uint8Array(readFileSync(path)), password); expect(result.records).toHaveLength(records); expect(result.headerCount).toBe(headerCount); });
+	it.skipIf(!sampleDir || !existsSync(path))(`known backup ${name}`, () => { const result = decodeBackup(new Uint8Array(readFileSync(path)), password); expect(result.records).toHaveLength(records); expect(result.headerCount).toBe(headerCount); });
 }

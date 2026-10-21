@@ -3,6 +3,7 @@ import { sponsorsSettingItems } from './license/github-obsidian';
 import { PRO_UI } from './pro';
 import { colorMap, validFolder, type Profile } from './backup';
 import type ColornoteBackupImportPlugin from './main';
+import { helloSettingItems } from './hello/settings';
 
 export interface ColornoteBackupImportSettings { profiles: Profile[] }
 export function normalizeSettings(saved: unknown): ColornoteBackupImportSettings {
@@ -19,6 +20,11 @@ export function normalizeSettings(saved: unknown): ColornoteBackupImportSettings
 export class ColornoteBackupImportSettingTab extends PluginSettingTab {
 	constructor(app: ConstructorParameters<typeof PluginSettingTab>[0], private owner: ColornoteBackupImportPlugin) { super(app, owner); }
 	getSettingDefinitions(): SettingDefinitionItem[] {
+		// The product rows, then the "More from NoteMods" card (packages/hello).
+		return [...this.productSettingDefinitions(), ...helloSettingItems()];
+	}
+
+	productSettingDefinitions(): SettingDefinitionItem[] {
 		return [
 			...(this.owner.pro ? sponsorsSettingItems(this.owner.pro, PRO_UI) : []),
 			{ name: 'Local import', desc: 'Open the command palette and select Import a ColorNote backup. The backup password is kept in the modal only.' },

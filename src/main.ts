@@ -6,6 +6,8 @@ import { SPONSORS, bindPro, isPro, resetPro } from './pro';
 import { ColornoteBackupImportSettingTab, normalizeSettings, type ColornoteBackupImportSettings } from './settings';
 import { ImportModal, CompareModal } from './ui';
 import { checklist, recordClass, safeName, validFolder, colorMap, type Backup, type Profile } from './backup';
+import { setupHello } from './hello/index';
+import WHATS_NEW from './whats-new.json';
 
 export default class ColornoteBackupImportPlugin extends Plugin {
 	settings: ColornoteBackupImportSettings = { profiles: [] };
@@ -13,6 +15,8 @@ export default class ColornoteBackupImportPlugin extends Plugin {
 	private importing = false;
 	readonly modals = new Set<Modal>();
 	async onload(): Promise<void> {
+		// First: "What's new" reads its state before the settings load (packages/hello). It does not wait.
+		setupHello(this, WHATS_NEW);
 		this.settings = normalizeSettings(await this.loadData() as unknown);
 		this.pro = createGitHubSponsors(this.app, this.manifest.id, SPONSORS, this);
 		this.pro.init();
