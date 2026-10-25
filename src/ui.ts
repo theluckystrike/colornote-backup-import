@@ -1,6 +1,6 @@
 import { COPY } from './copy';
 import { Modal, Setting, Notice, type TextComponent } from 'obsidian';
-import { decodeBackup, recordClass, compareBackups, validFolder, colorMap, type Backup } from './backup';
+import { decodeBackup, recordClass, SUPPORTED_VERSIONS, compareBackups, validFolder, colorMap, type Backup } from './backup';
 import { isPro, onProChange } from './pro';
 import type ColornoteBackupImportPlugin from './main';
 
@@ -8,7 +8,7 @@ class BackupPicker {
 	file: File | null = null;
 	password: TextComponent | null = null;
 	constructor(container: HTMLElement, label: string, private changed: () => void) {
-		const row = new Setting(container).setName(label).setDesc('Local version 7.1 backup, up to 32 MiB.');
+		const row = new Setting(container).setName(label).setDesc(`Local version ${SUPPORTED_VERSIONS.join(', ')} backup, up to 32 MiB.`);
 		const input = row.controlEl.createEl('input', { type: 'file', attr: { 'aria-label': label } });
 		input.addEventListener('change', () => { this.file = input.files?.[0] ?? null; changed(); });
 		new Setting(container).setName(`${label} password`).addText((t) => {
@@ -71,7 +71,7 @@ export class ImportModal extends Modal {
 				const backup = await this.picker!.decode();
 				if (this.closed || generation !== this.generation) return;
 				this.preview = backup;
-				this.show(`Version 7.1 · Header count ${backup.headerCount} · Decoded records ${backup.records.length}`);
+				this.show(`Version ${backup.version ?? 'unknown'} · Header count ${backup.headerCount} · Decoded records ${backup.records.length}`);
 				const counts = new Map<string, number>();
 				for (const r of backup.records) { const k = recordClass(r); counts.set(k, (counts.get(k) ?? 0) + 1); }
 				for (const [k, n] of counts) this.status!.createEl('p', { text: `${k}: ${n}` });

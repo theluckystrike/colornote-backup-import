@@ -531,7 +531,7 @@
    "args": [
     "version"
    ],
-   "expected": "Unsupported header version 8.0. Only 7.1 is supported."
+   "expected": "Unsupported header version 8.0. Supported versions: 7.1, 8.1, 8.2."
   },
   {
    "name": "bad chunk",

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Minor Changes
+
+- Read ColorNote backups with header version 8.1 and 8.2 ([#1](https://github.com/theluckystrike/colornote-backup-import/issues/1)). They use the same layout as 7.1. The preview and the import report show the header version. Other versions are still rejected.
+
 ## 1.1.0
 
 ### Minor Changes

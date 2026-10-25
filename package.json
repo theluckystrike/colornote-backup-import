@@ -2,7 +2,7 @@
 	"name": "colornote-backup-import",
 	"version": "1.1.0",
 	"private": true,
-	"description": "Import ColorNote version 7.1 backups as dated notes and checklists.",
+	"description": "Import ColorNote version 7.1, 8.1 and 8.2 backups as dated notes and checklists.",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {

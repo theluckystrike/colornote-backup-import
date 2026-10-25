@@ -1,8 +1,8 @@
 # ColorNote Backup Import
 
-Import ColorNote version 7.1 backups as dated notes and checklists. Select a local backup, enter its password, and review the record counts. Then create notes and an import report in a new vault folder. The core import is free and does not require an account.
+Import ColorNote backups (header version 7.1, 8.1 or 8.2) as dated notes and checklists. Select a local backup, enter its password, and review the record counts. Then create notes and an import report in a new vault folder. The core import is free and does not require an account.
 
-The file header must contain version 7.1. Other versions are rejected. Keep the original backup so that you can check the result against ColorNote after import.
+The file header must contain version 7.1, 8.1 or 8.2. Other versions are rejected, because the plugin reads only layouts that a real file has confirmed. Keep the original backup so that you can check the result against ColorNote after import.
 
 ## Features
 
@@ -40,7 +40,7 @@ Color labels are entered as a JSON object, such as `{"0":"Yellow","1":"Green"}`.
 
 ### Compare two backups (Pro)
 
-Select an earlier and a later version 7.1 backup. Enter each password, then select Compare note text. The view pairs normal records by UUID and shows added, removed and changed note text. It does not write notes or update an existing import. Earlier and later text appear in separate blocks.
+Select an earlier and a later backup. Enter each password, then select Compare note text. The view pairs normal records by UUID and shows added, removed and changed note text. It does not write notes or update an existing import. Earlier and later text appear in separate blocks.
 
 A title change alone is not a text change. System, locked, archive, trash and unsupported records are excluded from this comparison. Duplicate UUIDs in normal records cause an error because the view cannot select a reliable pair. Use the import report to check the omitted classes before you interpret a comparison.
 
@@ -79,13 +79,15 @@ Which backups were checked?
 
 The named 2024-10-14, 2026-06-15 and 2026-07-25 version 7.1 samples decoded to 9, 20 and 49 JSON records in local unit checks. Synthetic backups cover malformed data and the import controls. The opaque prefix before the first note record is skipped; it is not imported as a note.
 
+Version 8.1 and 8.2 backups use the same header, encryption and record layout as 7.1. The open-source [jimmy](https://github.com/marph91/jimmy) converter reads real 8.1 (ColorNote 4.7.6) and 8.2 backups with this layout. A synthetic 8.2 backup in `tests/fixtures` covers this path. No personal 8.x backup was used.
+
 What is excluded?
 
 Individually locked notes, reminders, calendar-specific titles and internal link repair are outside this version. Missing UUIDs, unknown record types and invalid required metadata are reported as unsupported.
 
 What was not tested?
 
-Physical Android and iOS devices, Linux and Windows app runs, a large production vault, operating system file-picker differences, filesystem timestamp persistence after sync, and recovery from a real full disk were not tested. The runtime uses browser APIs, but this is not proof of physical mobile operation. A live paid GitHub sponsorship was not used for tests.
+Physical Android and iOS devices, Linux and Windows app runs, a large production vault, operating system file-picker differences, filesystem timestamp persistence after sync, and recovery from a real full disk were not tested. The runtime uses browser APIs, but this is not proof of physical mobile operation. A live paid GitHub sponsorship was not used for tests. No real version 8.1 or 8.2 backup file was decoded by this plugin's tests.
 
 ## Payment, account and network
 
