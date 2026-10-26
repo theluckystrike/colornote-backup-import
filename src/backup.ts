@@ -18,26 +18,18 @@ export interface SourceRecord {
 export interface Backup {
 	headerCount: number;
 	records: SourceRecord[];
-	/** Header version, such as "8.2". Set by decodeBackup. */
-	version?: string;
 }
 const MAX_BYTES = 32 * 1024 * 1024;
 const MAGIC = [0, 78, 0, 79, 0, 84, 0, 69];
-/**
- * Header versions that share one layout: a 28-byte header, then AES-128-CBC data with length-prefixed JSON records.
- * Named 7.1 sample files pass the unit checks. The open-source jimmy converter reads 8.1 (ColorNote 4.7.6) and
- * 8.2 backups with this same layout. Other versions stay rejected until a real file shows their layout.
- */
-export const SUPPORTED_VERSIONS: readonly string[] = ['7.1', '8.1', '8.2'];
 
-/** An opaque prefix of variable length comes before the first record. */
+/** The first cipher block in known 7.1 files is an opaque prefix. */
 export function parseRecords(bytes: Uint8Array): SourceRecord[] {
 	const marker = new TextEncoder().encode('{"_id":');
 	let start = -1;
 	for (let i = 20; i <= bytes.length - marker.length; i++) {
 		if (marker.every((b, n) => bytes[i + n] === b)) { start = i - 4; break; }
 	}
-	if (start < 0) throw new Error('No record start was found. Check the password.');
+	if (start < 0) throw new Error('No version 7.1 record start was found. Check the password.');
 	const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
 	const records: SourceRecord[] = [];
 	let offset = start;
@@ -63,8 +55,7 @@ export function decodeBackup(bytes: Uint8Array, password: string): Backup {
 	if (!MAGIC.every((b, n) => bytes[n] === b)) throw new Error('The backup does not have the ColorNote NOTE header.');
 	const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
 	const major = view.getUint32(8, false), minor = view.getUint32(12, false);
-	const version = `${major}.${minor}`;
-	if (!SUPPORTED_VERSIONS.includes(version)) throw new Error(`Unsupported header version ${version}. Supported versions: ${SUPPORTED_VERSIONS.join(', ')}.`);
+	if (major !== 7 || minor !== 1) throw new Error(`Unsupported header version ${major}.${minor}. Only 7.1 is supported.`);
 	if ((bytes.length - 28) % 16 !== 0) throw new Error('The AES-CBC payload length is not a multiple of 16 bytes.');
 	const salt = new TextEncoder().encode('ColorNote Fixed Salt'), pass = new TextEncoder().encode(password);
 	const concat = (...arrays: Uint8Array[]) => { const bytes = new Uint8Array(arrays.reduce((n, a) => n + a.length, 0)); let at = 0; for (const a of arrays) { bytes.set(a, at); at += a.length; } return bytes; };
@@ -74,7 +65,7 @@ export function decodeBackup(bytes: Uint8Array, password: string): Backup {
 		try {
 			const pad = decoded[decoded.length - 1] ?? 0;
 			if (pad < 1 || pad > 16 || !decoded.subarray(decoded.length - pad).every((b) => b === pad)) throw new Error('AES-CBC padding is invalid. Check the password.');
-			return { headerCount: view.getUint32(24, false), records: parseRecords(decoded.subarray(0, decoded.length - pad)), version };
+			return { headerCount: view.getUint32(24, false), records: parseRecords(decoded.subarray(0, decoded.length - pad)) };
 		} finally { decoded.fill(0); }
 	} finally { key.fill(0); iv.fill(0); pass.fill(0); seed.fill(0); ivSeed.fill(0); }
 }

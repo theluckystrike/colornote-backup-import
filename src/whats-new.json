@@ -1,16 +1,9 @@
 {
 	"id": "colornote-backup-import",
 	"name": "ColorNote Backup Import",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"changes": [
-		"New Send feedback command. It opens a page where you can report a problem or suggest an idea.",
-		"Imports local ColorNote version 7.1 backups into a new folder.",
-		"Converts checklist marks and retains source metadata."
-	],
-	"changes_user": [
-		"New Send feedback command. It opens a page where you can report a problem or suggest an idea.",
-		"Checklist lines marked [V] in ColorNote become checked tasks, and [ ] lines become open tasks.",
-		"The import report lists skipped records, such as locked, archive and trash notes, with their source IDs."
+		"The ColorNote Backup Import notice for a Pro feature now has a Sponsor on GitHub button."
 	],
 	"tip": "With Pro, save a profile that maps color indexes to names such as Yellow. Imported notes then get a color_label property.",
 	"thanks": "Hi, I am Michael, a solo developer in Poland. ColorNote Backup Import is one of over 100 small plugins that I make. Thank you for moving your notes into Obsidian with it.",

@@ -1,8 +1,8 @@
 import { COPY } from './copy';
-import { Notice, Plugin, normalizePath, stringifyYaml, type Modal } from 'obsidian';
+import { Plugin, normalizePath, stringifyYaml, type Modal } from 'obsidian';
 import { createGitHubSponsors } from './license/github-obsidian';
 import type { SponsorsManager } from './license/index';
-import { SPONSORS, bindPro, isPro, resetPro } from './pro';
+import { SPONSORS, bindPro, isPro, resetPro, proNotice } from './pro';
 import { ColornoteBackupImportSettingTab, normalizeSettings, type ColornoteBackupImportSettings } from './settings';
 import { ImportModal, CompareModal } from './ui';
 import { checklist, recordClass, safeName, validFolder, colorMap, type Backup, type Profile } from './backup';
@@ -35,7 +35,7 @@ export default class ColornoteBackupImportPlugin extends Plugin {
 	openImport(): void { new ImportModal(this).open(); }
 	requirePro(): boolean {
 		if (isPro()) return true;
-		new Notice('This is a pro feature. Sponsor on GitHub, then sign in from the plugin settings.');
+		proNotice('This is a pro feature.');
 		return false;
 	}
 	async saveProfile(profile: Profile): Promise<boolean> {
@@ -74,7 +74,7 @@ export default class ColornoteBackupImportPlugin extends Plugin {
 				if (isPro() && Object.prototype.hasOwnProperty.call(colors, String(r.color_index))) metadata.color_label = colors[String(r.color_index)];
 				plan.push({ path: `${root}/${name}.md`, body: `---\n${stringifyYaml(metadata)}---\n\n${checklist(r.note!)}\n`, ctime: r.created_date!, mtime: r.modified_date! });
 			}
-			const report = `# ColorNote import report\n\nVersion: ${backup.version ?? 'unknown'}\n\nHeader count: ${backup.headerCount}\n\nDecoded records: ${backup.records.length}\n\n${Object.entries(counts).map(([k, v]) => `- ${k}: ${v}`).join('\n')}\n\n## Omitted records\n\n${omitted.join('\n') || 'No omitted records.'}\n\nThe header count does not limit the record stream. The password and omitted note bodies are not in this report.\n`;
+			const report = `# ColorNote import report\n\nVersion: 7.1\n\nHeader count: ${backup.headerCount}\n\nDecoded records: ${backup.records.length}\n\n${Object.entries(counts).map(([k, v]) => `- ${k}: ${v}`).join('\n')}\n\n## Omitted records\n\n${omitted.join('\n') || 'No omitted records.'}\n\nThe header count does not limit the record stream. The password and omitted note bodies are not in this report.\n`;
 			const segments = root.split('/');
 			for (let n = 1; n <= segments.length; n++) {
 				const path = segments.slice(0, n).join('/');
