@@ -1,9 +1,11 @@
 {
 	"id": "colornote-backup-import",
 	"name": "ColorNote Backup Import",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"changes": [
-		"The ColorNote Backup Import notice for a Pro feature now has a Sponsor on GitHub button."
+		"Reads ColorNote backups with header version 8.1 and 8.2.",
+		"The Pro notice of ColorNote Backup Import now says that one payment turns on Pro in every NoteMods plugin.",
+		"These newer backups use the same layout as version 7.1."
 	],
 	"tip": "With Pro, save a profile that maps color indexes to names such as Yellow. Imported notes then get a color_label property.",
 	"thanks": "Hi, I am Michael, a solo developer in Poland. ColorNote Backup Import is one of over 100 small plugins that I make. Thank you for moving your notes into Obsidian with it.",
