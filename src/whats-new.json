@@ -1,7 +1,7 @@
 {
 	"id": "colornote-backup-import",
 	"name": "ColorNote Backup Import",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"changes": [
 		"Reads ColorNote backups with header version 8.1 and 8.2.",
 		"The Pro notice of ColorNote Backup Import now says that one payment turns on Pro in every NoteMods plugin.",

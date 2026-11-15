@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1
+
+### Patch Changes
+
+- The Sponsor button now opens the NoteMods one-time tier.
+
 ## 1.2.0
 
 ### Minor Changes

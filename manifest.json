@@ -1,7 +1,7 @@
 {
 	"id": "colornote-backup-import",
 	"name": "ColorNote Backup Import",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"minAppVersion": "1.13.4",
 	"description": "Import ColorNote version 7.1, 8.1 and 8.2 backups as dated notes and checklists.",
 	"author": "Michael Lip",
